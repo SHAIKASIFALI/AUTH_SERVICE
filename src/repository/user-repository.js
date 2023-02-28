@@ -7,6 +7,22 @@ class UserRepository {
       return user;
     } catch (error) {
       console.log(`something went wrong in repository layer`);
+      throw error;
+    }
+  }
+
+  async getUserByEmail(email) {
+    try {
+      const user = await User.findOne({
+        where: {
+          email: email,
+        },
+      });
+      return user;
+    } catch (error) {
+      console.log(`something went wrong in repository layer`);
+      console.log(error);
+      throw error;
     }
   }
   async registerUser({ email, password }) {
@@ -19,6 +35,26 @@ class UserRepository {
     } catch (error) {
       console.log(`something went wrong in repository layer`);
       console.log(error);
+      throw error;
+    }
+  }
+
+  async updateUserVerificationStatus(id) {
+    try {
+      const user = await User.findByPk(id);
+      await User.update(
+        { ...user, isVerified: true },
+        {
+          where: {
+            id: id,
+          },
+        }
+      );
+      return true;
+    } catch (error) {
+      console.log(`something went wrong in repository layer`);
+      console.log(error);
+      throw error;
     }
   }
 }
