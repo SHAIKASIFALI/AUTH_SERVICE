@@ -46,8 +46,33 @@ const passwordFormatValidator = (req, res, next) => {
   next();
 };
 
+const accessTokenValidator = async (req, res, next) => {
+  if (!req.headers["x-access-token"]) {
+    res.status(400).json({
+      data: {},
+      msg: `x-access-token is not set for validating user`,
+      success: false,
+      err: {},
+    });
+  }
+  next();
+};
+
+const adminRequestValidator = async (req, res, next) => {
+  if (!req.params.id) {
+    return res.status(400).json({
+      success: false,
+      data: {},
+      msg: `something went wrong`,
+      err: `id parameter is missing`,
+    });
+  }
+  next();
+};
 module.exports = {
   RegistrationParamValidator,
   emailFormatValidator,
   passwordFormatValidator,
+  accessTokenValidator,
+  adminRequestValidator,
 };

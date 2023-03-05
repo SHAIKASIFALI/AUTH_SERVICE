@@ -10,6 +10,9 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
+      this.belongsToMany(models.role, {
+        through: "user_roles",
+      });
       // define association here
     }
   }
@@ -42,6 +45,10 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   User.beforeCreate(async (user) => {
+    user.password = await bcrypt.hash(user.password, SALT_ROUNDS);
+  });
+
+  User.beforeUpdate(async (user) => {
     user.password = await bcrypt.hash(user.password, SALT_ROUNDS);
   });
   return User;

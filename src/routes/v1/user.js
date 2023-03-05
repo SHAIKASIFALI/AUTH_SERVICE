@@ -1,25 +1,45 @@
 const express = require("express");
+const userRouter = express.Router();
+
 const {
   httpGetUser,
   httpRegisterUser,
   httpVerifyEmail,
   httpLoginUser,
+  httpIsAuthenticated,
+  httpLogoutUser,
+  httpForgotPassword,
+  httpIsAdmin,
 } = require("../../controllers/user-controllers");
-const userRouter = express.Router();
 const { AuthRegisterMiddlewares } = require("../../middlewares/index");
-userRouter.get("/signup/verifyemail", httpVerifyEmail);
-userRouter.get("/:id", httpGetUser);
+
+userRouter.get("/auth/signup/verifyemail", httpVerifyEmail);
 userRouter.post(
-  "/signup",
+  "/auth/signup",
   AuthRegisterMiddlewares.RegistrationParamValidator,
   AuthRegisterMiddlewares.emailFormatValidator,
   AuthRegisterMiddlewares.passwordFormatValidator,
   httpRegisterUser
 );
 userRouter.post(
-  "/login",
+  "/auth/login",
   AuthRegisterMiddlewares.RegistrationParamValidator,
   AuthRegisterMiddlewares.emailFormatValidator,
   httpLoginUser
 );
+userRouter.get("/auth/isAuthenticated", httpIsAuthenticated);
+userRouter.get(
+  "/auth/logout",
+  AuthRegisterMiddlewares.accessTokenValidator,
+  httpLogoutUser
+);
+userRouter.post("/auth/forgotpassword", httpForgotPassword);
+userRouter.post("/auth/forgotpassword/:id", httpForgotPassword);
+userRouter.get(
+  "/auth/isAdmin/:id",
+  AuthRegisterMiddlewares.adminRequestValidator,
+  httpIsAdmin
+);
+userRouter.get("/:id", httpGetUser);
+
 module.exports = userRouter;
