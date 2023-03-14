@@ -1,6 +1,8 @@
+const { StatusCodes } = require("http-status-codes");
+
 const RegistrationParamValidator = (req, res, next) => {
   if (!req.body.email || !req.body.password) {
-    return res.status(400).json({
+    return res.status(StatusCodes.BAD_REQUEST).json({
       data: {},
       msg: `email or password is missing kindly check`,
       success: false,
@@ -16,7 +18,7 @@ const emailFormatValidator = (req, res, next) => {
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$/;
   const emailRegexp = new RegExp(EMAIL_REGEXP_VALIDATOR);
   if (!emailRegexp.test(req.body.email)) {
-    return res.status(400).json({
+    return res.status(StatusCodes.BAD_REQUEST).json({
       data: {},
       msg: `invalid email format kindly enter a valid email format`,
       success: false,
@@ -31,7 +33,7 @@ const passwordFormatValidator = (req, res, next) => {
     /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
   const passwordRegexp = new RegExp(PASSWORD_REGEXP_VALIDATOR);
   if (!passwordRegexp.test(req.body.password)) {
-    return res.status(400).json({
+    return res.status(StatusCodes.BAD_REQUEST).json({
       data: {},
       msg: `invalid password format makesure that password contains\n 
             1.Atleast one uppercase english letter[A-Z]\n
@@ -48,7 +50,7 @@ const passwordFormatValidator = (req, res, next) => {
 
 const accessTokenValidator = async (req, res, next) => {
   if (!req.headers["x-access-token"]) {
-    res.status(400).json({
+    res.status(StatusCodes.BAD_REQUEST).json({
       data: {},
       msg: `x-access-token is not set for validating user`,
       success: false,
@@ -60,7 +62,7 @@ const accessTokenValidator = async (req, res, next) => {
 
 const adminRequestValidator = async (req, res, next) => {
   if (!req.params.id) {
-    return res.status(400).json({
+    return res.status(StatusCodes.BAD_REQUEST).json({
       success: false,
       data: {},
       msg: `something went wrong`,

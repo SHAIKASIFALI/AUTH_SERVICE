@@ -10,6 +10,8 @@ const {
   httpLogoutUser,
   httpForgotPassword,
   httpIsAdmin,
+  httpGetAllUsers,
+  httpAddAdmin,
 } = require("../../controllers/user-controllers");
 const { AuthRegisterMiddlewares } = require("../../middlewares/index");
 
@@ -27,7 +29,7 @@ userRouter.post(
   AuthRegisterMiddlewares.emailFormatValidator,
   httpLoginUser
 );
-userRouter.get("/auth/isAuthenticated", httpIsAuthenticated);
+userRouter.get("/auth/isAuthenticated", httpIsAuthenticated); //
 userRouter.get(
   "/auth/logout",
   AuthRegisterMiddlewares.accessTokenValidator,
@@ -40,6 +42,10 @@ userRouter.get(
   AuthRegisterMiddlewares.adminRequestValidator,
   httpIsAdmin
 );
+userRouter.post("/auth/addAdmin", httpAddAdmin);
 userRouter.get("/:id", httpGetUser);
-
+userRouter.get("/", httpGetAllUsers);
+// routes yet to be added ..
+//  isadmin/
+//
 module.exports = userRouter;

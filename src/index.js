@@ -10,12 +10,11 @@ const { DB_SYNC } = require("./config/serverconfig");
 const app = express();
 
 const startAndSetupServer = async () => {
-  if (DB_SYNC) db.sequelize.sync({ alert: true });
   app.use(bodyParser.json());
   app.use(cors());
-  console.log(PORT);
   app.use("/api", apiRouter);
   app.listen(PORT, () => {
+    if (DB_SYNC) db.sequelize.sync({ alert: true });
     console.log(`server is started and listening at ${PORT}`);
   });
 };
