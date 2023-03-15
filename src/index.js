@@ -12,7 +12,7 @@ const app = express();
 const startAndSetupServer = async () => {
   app.use(bodyParser.json());
   app.use(cors());
-  app.use("/api", apiRouter);
+  app.use("/authservice/api", apiRouter);
   app.listen(PORT, () => {
     if (DB_SYNC) db.sequelize.sync({ alert: true });
     console.log(`server is started and listening at ${PORT}`);
