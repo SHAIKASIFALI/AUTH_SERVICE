@@ -45,7 +45,4 @@ userRouter.get(
 userRouter.post("/auth/addAdmin", httpAddAdmin);
 userRouter.get("/:id", httpGetUser);
 userRouter.get("/", httpGetAllUsers);
-// routes yet to be added ..
-//  isadmin/
-//
 module.exports = userRouter;

@@ -55,7 +55,7 @@ class UserService {
         const url = `http://localhost:${PORT}/api/v1/users/auth/signup/verifyemail/?token=${token}`;
         sendEmail(user.email, url, `Email Verification Mail`);
       }
-      return user.email;
+      return user.id;
     } catch (error) {
       if (error.name === "clientError" || error.name === "serverError")
         throw error;
